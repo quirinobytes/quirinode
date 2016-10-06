@@ -7,7 +7,7 @@ var verbose = false;
 var porta;
 
 console.log("KRNGET 0.1 || HTTP GET http://" + process.argv[2] + "/ [no_porta] \n");
-if (typeof process.argv[2] == 'undefined') return;
+if (typeof process.argv[2] == 'undefined') { console.log ("\n\nTente: ./GET.js host [porta]\n") ; return; } 
 console.log('Host: '+process.argv[2]);
 
 if (process.argv.indexOf("-v"))
