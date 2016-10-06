@@ -2,11 +2,23 @@
 var debug = true;
 var keepalive = false;
 var verbose = false;
+var porta;
 
-console.log("KRNGET 0.1 || HTTP GET http://" + process.argv[2] + "/\n\n");
+console.log("KRNGET 0.1 || HTTP GET http://" + process.argv[2] + "/ [no_porta] \n");
+if (typeof process.argv[2] == 'undefined') return;
+console.log('Host: '+process.argv[2]);
 
 if (process.argv.indexOf("-v"))
 	verbose = true;
+
+if (process.argv[3] ){
+	porta = process.argv[3];
+	console.log('Porta= '+ porta);
+}
+else {
+	porta = 80;
+	console.log('Porta= '+ porta);
+}
 
 var http = require ("http");
 var dateFormat = require('dateformat');
@@ -15,15 +27,15 @@ var now = new Date();
 var start = process.hrtime(); //marca o exato momento do inicio do processo, tipo para usar em um cronometro.
 
 if (keepalive)
-	var options = {  hostname: '',  port: 80,  path: '/',  method: 'GET'};
+	var options = {  hostname: '',  port: porta,  path: '/',  method: 'GET'};
 else
-	var options = {  hostname: '',  port: 80,  path: '/',  method: 'GET',  agent: false};
+	var options = {  hostname: '',  port: porta,  path: '/',  method: 'GET',  agent: false};
 
 options[0] = process.argv[2];
 
 
 var get = 	http.get(options, function(res) {
-  				if (verbose) console.log("LOG: " + dateFormat(now,"hh:MM:ss dd/mm/yy"));
+  				if (verbose) console.log("Start: " + dateFormat(now,"hh:MM:ss dd/mm/yy\n"));
   				if (verbose) process.stdout.write(("Got response: " + res.statusCode + " em: ").blue); 
   				if (verbose) elapsed_time();
   				
@@ -32,7 +44,7 @@ var get = 	http.get(options, function(res) {
 				
 
 			}).on('error', function(e) {
-				console.log("LOG: " + dateFormat(now,"hh:MM:ss dd/mm/yy"));
+				console.log("Start: " + dateFormat(now,"hh:MM:ss dd/mm/yy\n"));
 				console.log(("Got error: " + e.message).red);
 			
 			}).on('close', function(socket) {
