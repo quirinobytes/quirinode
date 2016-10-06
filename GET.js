@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* KRNGET */
 var debug = true;
 var keepalive = false;
